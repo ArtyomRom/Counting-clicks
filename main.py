@@ -9,7 +9,7 @@ def is_shorten_link(token, url):
     params = {'access_token': token, 'url': url, 'v': '5.199'}
     response = requests.get('https://api.vk.com/method/utils.checkLink', params=params)
     response.raise_for_status()
-    return response.json()['response']['link']
+    return url != response.json()['response']['link']
 
 def shorten_link(token, url):
     params = {'access_token': token, 'url': url, 'private': '0', 'v': '5.199'}
@@ -31,11 +31,15 @@ def count_clicks(token, link):
 def main():
     load_dotenv()
     try:
-        link = is_shorten_link(os.getenv('API_VK'), input())
-        short_link = shorten_link(os.getenv('API_VK'), link)
-        print('Сокращенная ссылка: ', short_link)
-        count_click = count_clicks(os.getenv('API_VK'), short_link)
-        print('Количество кликов: ', count_click)
+        link = is_shorten_link(os.environ['TOKEN_VK'], input())
+        if link:
+            short_link = shorten_link(os.environ['TOKEN_VK'], link)
+            print('Сокращенная ссылка: ', short_link)
+            count_click = count_clicks(os.environ['TOKEN_VK'], short_link)
+            print('Количество кликов: ', count_click)
+        else:
+            short_link = shorten_link(os.environ['TOKEN_VK'], link)
+            print('Сокращенная ссылка: ', short_link)
     except requests.exceptions.HTTPError as error:
         print(error)
 
