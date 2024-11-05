@@ -32,7 +32,7 @@ def count_clicks(token, link):
 def main():
     load_dotenv()
     try:
-        link = is_shorten_link(os.environ['VK_TOKEN'], 'https://vk.cc/cwSc1H')
+        link = is_shorten_link(os.environ['VK_TOKEN'], input())
         if not link[0]:
             short_link = shorten_link(os.environ['VK_TOKEN'], link[1])
             print('Сокращенная ссылка: ', short_link)
