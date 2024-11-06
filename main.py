@@ -8,7 +8,7 @@ def is_shorten_link(token, url):
     params = {'access_token': token, 'url': url, 'v': '5.199'}
     response = requests.get('https://api.vk.com/method/utils.getShortLink', params=params)
     response.raise_for_status()
-    return 'vk.cc' in url, url
+    return 'vk.cc' in url
 
 def shorten_link(token, url):
     params = {'access_token': token, 'url': url, 'private': '0', 'v': '5.199'}
@@ -32,12 +32,12 @@ def count_clicks(token, link):
 def main():
     load_dotenv()
     try:
-        link = is_shorten_link(os.environ['VK_TOKEN'], input())
-        if not link[0]:
-            short_link = shorten_link(os.environ['VK_TOKEN'], link[1])
+        link = input()
+        if is_shorten_link(os.environ['VK_TOKEN'], link):
+            short_link = shorten_link(os.environ['VK_TOKEN'], link)
             print('Сокращенная ссылка: ', short_link)
         else:
-            count_click = count_clicks(os.environ['VK_TOKEN'], link[1])
+            count_click = count_clicks(os.environ['VK_TOKEN'], link)
             print('Количество кликов: ', count_click)
     except requests.exceptions.HTTPError as error:
         print(error)
