@@ -1,6 +1,7 @@
 import argparse
 import os
 import re
+
 import requests
 from dotenv import load_dotenv
 
@@ -37,14 +38,14 @@ def count_clicks(token, link):
 
 def main():
     load_dotenv()
+    parser = argparse.ArgumentParser(
+        description='Сокращает переданные ссылки и выдает количество переходов по ссылкам, если они уже были сокращенны'
+    )
+    parser.add_argument('link', help='Введите вашу ссылку')
+    args = parser.parse_args()
+    parser.print_help()
+    link = args.link
     try:
-        parser = argparse.ArgumentParser(
-            description='Сокращает переданные ссылки и выдает количество переходов по ссылкам, если они уже были сокращенны'
-        )
-        parser.add_argument('link', help='Введите вашу ссылку')
-        args = parser.parse_args()
-        parser.print_help()
-        link = args.link
         if not is_shorten_link(os.environ['VK_TOKEN'], link):
             short_link = shorten_link(os.environ['VK_TOKEN'], link)
             print('Сокращенная ссылка: ', short_link)
@@ -53,7 +54,6 @@ def main():
             print('По ссылке перешли: ', count_click)
     except requests.exceptions.HTTPError as error:
         print(error)
-
 
 if __name__ == '__main__':
     main()
