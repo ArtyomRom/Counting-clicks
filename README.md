@@ -16,7 +16,7 @@
   ## Установка окружения
 
   1. Склонируйте репозиторий:
-   [link](`https://github.com/ArtyomRom/Counting-clicks.git`)
+   [link](https://github.com/ArtyomRom/Counting-clicks.git)
 
   2. Создайте виртуальное окружение:
         ```bash
